@@ -90,28 +90,28 @@ class SCRN1(Screen):
         self.grid1 = BoxLayout(spacing = 20, padding = 10,width=self.width,height=self.height)
         
         # Text entrance
-        self.txt1= TextInput(pos_hint={'top': 1},hint_text = "Entrada de Numero")
+        self.txt1= TextInput(pos_hint={'top': 1},hint_text = "Numero A convertir")
         self.txt1.size_hint_x = .5
         self.txt1.size_hint_y = .16
         
 
         # Spinner Widget
-        self.DRDW = Spinner(text = "Multiples", values = ("2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"),pos_hint={'top': 1})        
+        self.DRDW = Spinner(text = "Base", values = ("2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"),pos_hint={'top': 1})        
         self.DRDW.size_hint_x = .5
         self.DRDW.size_hint_y = .16
-        self.DRDW._on_dropdown_select = self.printerer
+        #self.DRDW._on_dropdown_select = self.printerer
 
         # Text entrance2
-        self.txt2= TextInput(pos_hint={'top': 1},hint_text = "Entrada de Numero")
+        self.txt2= Label(pos_hint={'top': 1},text = "Salida de numero")
         self.txt2.size_hint_x = .5
         self.txt2.size_hint_y = .16
 
 
         # Spinner2 Widget
-        self.DRDW2 = Spinner(text = "Basicos", values = ("2","8","10","16"),pos_hint={'top': 1})
+        self.DRDW2 = Spinner(text = "Base", values = ("2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"),pos_hint={'top': 1})
         self.DRDW2.size_hint_x = .5
         self.DRDW2.size_hint_y = .16
-        self.DRDW2._on_dropdown_select = self.printerer2
+        #self.DRDW2._on_dropdown_select = self.printerer2
 
         
         
@@ -131,13 +131,14 @@ class SCRN1(Screen):
         self.Lb1 = Label(pos_hint={'top': .9})        
         self.Lb1.size_hint_x = .5
         self.Lb1.size_hint_y = .16
-        self.Lb1.text = "Aqui se mostrarán los resultados"
+        self.Lb1.text = "Aqui se mostrarán\nlos resultados"
         
         # Label2 for Base indicator 
-        self.Lb2 = Label(pos_hint={'top': .9})
-        self.Lb2.text = "Aqui se mostrarán los resultados" 
+        self.Lb2 = Button(pos_hint={'top': .9},on_press=self.printerer) #################
+        self.Lb2.text = "Convertir" 
         self.Lb2.size_hint_x = .5
-        self.Lb2.size_hint_y = .16
+        self.Lb2.size_hint_y = .13
+        
 
         
         # Adding widgets to layout
@@ -239,57 +240,48 @@ class SCRN1(Screen):
 
         try:
             global actualbase
-            self.txt1.text = changebase(self.txt1.text,actualbase,int(*args))
-            actualbase = int(*args)
-            self.DRDW.text = str(actualbase)
-            print(*args)
-            self.Lb1.text = "El numero " + str(changebase(int(self.txt1.text),actualbase,10)) + " es igual a "+self.txt1.text + " en base " + str(actualbase)
-            
-
-        except Exception:
-            global msg
-            
-            if self.txt1.text != "":
-                msg= " La base actual con la que se está trabajando es " + str(actualbase) + " \nLo que significa que no podrás agregar valores \npor encima de este numero" + "\nEstabas trabajando con base " + str(actualbase) + " e intentaste agregar " + "'" + self.txt1.text+"'" + "\nEs decir que debes agregar valor menor a la base que trabajes"
-                pup = Popup(title = "", content = Label(text = msg),size_hint = (.55,.5))
-
-            else:
-                msg =  "No hay nada para convertir" + "\nDebes agregar algún valor"    
-                pup = Popup(title = "", content = Label(text = msg),size_hint = (.3,.3))
-            pup.open()
-
-
-        
-
-
-    # SPINNER2 TEXT IS SPINNER2 TEXT SELECTED
-    def printerer2(self,instance,*args):
-        try:
             global actualbase2
-            self.txt2.text = changebase(self.txt2.text,actualbase2,int(*args))
-            actualbase2 = int(*args)
-            self.Lb2.text = "El numero " + str(changebase(int(self.txt2.text),actualbase,10)) + " es igual a "+ self.txt2.text + " en base " + str(actualbase2)
 
-            print(*args)
-        
+            
+            actualbase = int(self.DRDW.text)
+            actualbase2 = int(self.DRDW2.text)
+
+            num1 = changebase(str(self.txt1.text),int(self.DRDW.text),int(self.DRDW2.text))
+
+
+
+            self.Lb1.text= "El numero " + self.txt1.text + "\nEn base " + self.DRDW.text + "\n \nEquivale a "+  str(num1) + "\nEn base " + self.DRDW2.text
+            #self.txt1.text = changebase(self.txt1.text,actualbase,int(*args))
+
+            #self.DRDW.text = str(actualbase)
+            #print(*args)
+            
+            #self.Lb1.text = "El numero " + str(changebase(int(self.txt1.text),actualbase,10)) + "\nes igual a "+self.txt1.text + "\nen base " + str(actualbase)
+            
+
         except Exception:
             global msg
             
             if self.txt1.text != "":
                 msg= " La base actual con la que se está trabajando es " + str(actualbase) + " \nLo que significa que no podrás agregar valores \npor encima de este numero" + "\nEstabas trabajando con base " + str(actualbase) + " e intentaste agregar " + "'" + self.txt1.text+"'" + "\nEs decir que debes agregar valor menor a la base que trabajes"
                 pup = Popup(title = "", content = Label(text = msg),size_hint = (.55,.5))
+                pup.open()
 
             else:
                 msg =  "No hay nada para convertir" + "\nDebes agregar algún valor"    
                 pup = Popup(title = "", content = Label(text = msg),size_hint = (.3,.3))
-            pup.open()
+
+
+
+        
+
 
     def operation(self,instante,*args):
         try:
             resultado = 0
-            num1 = changebase(int(self.txt3.text),int(self.DRDW3.text),10) # convertir el numero1 de base DRDW3 a base  10
+            num1 = changebase(str(self.txt3.text),int(self.DRDW3.text),10) # convertir el numero1 de base DRDW3 a base  10
             print(num1)
-            num2 =  changebase(int(self.txt4.text),int(self.DRDW4.text),10)
+            num2 =  changebase(str(self.txt4.text),int(self.DRDW4.text),10)
             print(num2)
             r = num1 + self.op.text + num2
             print(r)
@@ -298,7 +290,7 @@ class SCRN1(Screen):
 
 
             self.txt5.text=changebase(resultado,10,int(self.DRDW5.text))
-            self.resultado.text = "La operación " + str(r) + " es = " + str(changebase(resultado,10,int(self.DRDW3.text))) + "\n Que es equivalente a " + str(resultado) + " en base 10"
+            self.resultado.text = "La operación \n" + str(r) + " es = " + str(changebase(resultado,10,int(self.DRDW3.text))) + "\n Que es equivalente a\n " + str(resultado) + " en base 10"
         
         except Exception:
             msg =  "Error\nVerifique que halla seleccionado una operación\nAsegurese que no halla dejado espacios blancos en numero 1 y 2\nQue no halla seleccionado un numero invalido para la base que se este trabajando\n  Ejemplo: Selecciona base 2 y escribe un 4"    
