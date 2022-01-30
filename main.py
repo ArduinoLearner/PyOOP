@@ -1,5 +1,3 @@
-from logging import exception
-from unittest import result
 import kivy
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -7,15 +5,12 @@ kivy.require("2.0.0")
 from kivy.app import App
 
 
-from kivy.uix.screenmanager import Screen, ScreenManager
+from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
 from kivy.uix.label import Label
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
-from kivy.uix.floatlayout import FloatLayout
-from kivy.uix.scatterlayout import ScatterLayout
-from kivy.uix.scatter import Scatter
 
 
 
